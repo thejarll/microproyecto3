@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffe-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffe-api
+  template:
+    metadata:
+      labels:
+        app: coffe-api
+    spec:
+      containers:
+      - name: coffe-api
+        image: santiagoxarce/coffe-api:v1
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffe-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: coffe-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
